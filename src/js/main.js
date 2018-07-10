@@ -1,65 +1,66 @@
-import "generatingClients.js"
-const studentsUrl = 'http://localhost:3000/clients'
-var studentForm;
+const clientsUrl = 'http://localhost:3000/clients'
+var clientForm;
 
-function init(){
-	loadStudents()
-		.then(renderStudents);
+function init() {
+    let content = document.getElementById("content");
+    loadClients()
+        .then(renderClients(content));
 
-	studentForm = document.getElementById('student-form');
-	studentForm.addEventListener('submit',(event) => {
-		event.preventDefault();
-		createStudent()
-			.then(loadStudents)
-			.then(renderStudents);
-	});	
+    formTemplate = document.getElementById('form-template');
+formTemplate.getElementBy()
+
+
+
+    content.appendChild(form)
+    clientForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        createClient()
+            .then(loadClients)
+            .then(renderClients);
+    });
 };
 window.onload = init;
 
-function createStudent(){
-	let studentFormValues = {
-		'name': studentForm.name.value,
-		'mark': studentForm.mark.value
-	} 
-	return fetch(studentsUrl,{
-		method: 'POST',
-		headers: {
-      		'Accept': 'application/json',
-      		'Content-Type': 'application/json'
-    		},
-    	 body: JSON.stringify(studentFormValues)
+function createClient() {
+    let clientFormValues = {
+        'name': studentForm.name.value,
+        'lastName': studentForm.mark.value
+    }
+    return fetch(clientsUrlUrl, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(studentFormValues)
 
-	})
-		.then(r => r.json())
+    })
+        .then(r => r.json())
 };
 
-function loadStudents() {
-	return fetch(studentsUrl)
-				.then(r => r.json());
+function loadClients() {
+    return fetch(clientsUrl)
+        .then(r => r.json());
 };
 
-function updateStudentElement(studentElement, student){
-	studentElement.querySelector("h1").innerHTML = student.name;
-	studentElement.querySelector('div').innerHTML = student.mark;
+function updateClientElement(clientElement, client) {
+    clientElement.getElementById("clientId").innerHTML = client.id;
+    clientElement.getElementById("clientName").innerHTML = client.firstName;
+    clientElement.getElementById("clientLastName").innerHTML = client.lastName;
 };
 
-function renderStudents(students){
-	console.log(students);
-	let summMarks = 0;
-	let template = document.getElementById('student-template');
-	let studentElement = template.content.querySelector('.student');
-	let studentList = document.getElementById('students');
-	studentList.innerHTML = '';
-	for (let student of students){
-		let studentClone = studentElement.cloneNode(true);
-		updateStudentElement(studentClone, student);
-		summMarks += parseInt(student.mark);
-		studentList.appendChild(studentClone);
-	}
+function renderClients(clients,content) {
+    console.log(clients);
+    let template = document.getElementById('client-template');
+    let clientElement = template.getElementById('client');
+    let clientTableTemplate = document.getElementById('clients-table-template');
+    let clientsList = clientTableTemplate.getElementById('clients');
 
-	let avarageElement = document.getElementById("avarage-mark");
-	avarageElement.innerHTML = String(summMarks/students.length);
-	studentForm.mark.value = '';
-};
-
-var studentsArray = [{name:"Anton", mark:"3"}, {name:"Maksim",mark:"4"}, {name:"Yarik",mark:"5"}];
+    clientsList.innerHTML = '';
+    for (let client of clients) {
+        let clientClone = clientElement.cloneNode(true);
+        updateClientElement(clientClone, client);
+        clientsList.appendChild(clientClone);
+    }
+    content.appendChild(clientTableTemplate);
+}

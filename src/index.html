@@ -2,47 +2,96 @@
 <head>
     <title>Bootstrap 4 Layout</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,800">
     <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
 
-    <!--<link rel="stylesheet" href="/css/bootstrap.css">-->
-    <!--<link rel="stylesheet" href="/css/styles.css">-->
+    <!--<link rel="stylesheet" href="../node_modules/bootstrap/scss/bootstrap.scss">-->
+    <!--<link rel="stylesheet" href="css/custom.scss">-->
+
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
+<template id="input">
+    <input class="form-control m-2 input-width">
+</template>
+<template id="form-template">
+    <div class="card" style="position: relative; left: 0;">
+        <div class=" card-header mt-2">
+            <h1 id="form-name"></h1>
+        </div>
+        <div class="card-body">
+            <form action="" id='form' class="m-2">
+                <button class="m-2 md-auto btn btn-primary" name="submit" type="submit"></button>
+            </form>
+        </div>
+    </div>
+</template>
 <template id="client-template">
-    <tr class="client">
-        <td><h1></h1></td>
-        <td><div></div></td>
+    <tr id="client">
+        <th scope="row" id="clientId"></th>
+        <td id="clientName"></td>
+        <td id="clientLastName"></td>
     </tr>
 </template>
+<template id="clients-table-template">
+    <h1>Clients</h1>
+    <table class="table table-hover table-responsive-sm">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+        </tr>
+        </thead>
+        <tbody id="clients">
+        </tbody>
+    </table>
+</template>
+
 <div class="container">
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link active" href="#">Active</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
-    </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark nav-color">
+        <a class="navbar-brand" href="#">Auto Service</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" style="color:#fff" href="#">Clients</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color:#fff" href="#">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color:#fff" href="#">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color:#fff" href="#">Journal</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="container mt-md-15 mt-sm-20 mt-lg-5" id="content">
 
 </div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
-
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-<script type="text/javascript" src="js/generatingClients.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 </body>
 </html>

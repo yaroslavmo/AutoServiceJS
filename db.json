@@ -1,38 +1,223 @@
 {
   "clients": [
-    {"id":1,
-      "firstName":"Yarik",
-    "lastName":"Mokhurenko"},
-    {"id":2,
-      "firstName":"alibaba",
-      "lastName":"razboinik"},
-    {"id":3,
-      "firstName":"Dart",
-      "lastName":"Vader"}
+    {
+      "id": 1,
+      "firstName": "Yarik",
+      "lastName": "Mokhurenko"
+    },
+    {
+      "id": 2,
+      "firstName": "alibaba",
+      "lastName": "razboinik"
+    },
+    {
+      "id": 3,
+      "firstName": "Dart",
+      "lastName": "Vader"
+    }
   ],
   "journal": [
-    {"total":"1000  "},
-    {},
-    {}
+    {
+      "id": 0,
+      "billClient": 0,
+      "services": [
+      {"serviceId": 0,
+      "name": "Change oil",
+      "price": 120,
+      "categoryId": 0
+      },
+      {
+      "name": "Fuel supply system repair",
+      "price": 500,
+      "categoryId": 0
+      },
+      {
+      "name": "Transmission system repair",
+      "price": 600,
+      "categoryId": 0
+      }
+      ],
+      "total": 1220
+    },
+    {
+      "id": 1,
+      "billClient": 1,
+    "services":[
+      {
+        "name": "Auidio/Video devices",
+        "price": 400,
+        "categoryId": 1
+      },
+      {
+        "name": "Ignition electronic system",
+        "price": 800,
+        "categoryId": 1
+      },
+      {
+        "name": "Lighting and signaling system",
+        "price": 300,
+        "categoryId": 1
+      }
+    ],
+      "total": 1500
+    },
+    {
+      "id": 2,
+      "billClient": 2,
+      "services": [
+        {
+          "name": "Braking system",
+          "price": 120,
+          "categoryId": 2
+        },
+        {
+          "name": "Tires repair",
+          "price": 500,
+          "categoryId": 2
+        },
+        {
+          "name": "Steering wheel",
+          "price": 600,
+          "categoryId": 2
+        }
+      ],
+      "total": 1220
+    }
   ],
   "services": [
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {}
+    {
+      "id": 0,
+      "name": "Change oil",
+      "price": 120,
+      "categoryId": 0
+    },
+    {
+      "id": 1,
+      "name": "Fuel supply system repair",
+      "price": 500,
+      "categoryId": 0
+    },
+    {
+      "id": 2,
+      "name": "Transmission system repair",
+      "price": 600,
+      "categoryId": 0
+    },
+    {
+      "id": 3,
+      "name": "Auidio/Video devices",
+      "price": 400,
+      "categoryId": 1
+    },
+    {
+      "id": 4,
+      "name": "Ignition electronic system",
+      "price": 800,
+      "categoryId": 1
+    },
+    {
+      "id": 5,
+      "name": "Lighting and signaling system",
+      "price": 300,
+      "categoryId": 1
+    },
+    {
+      "id": 6,
+      "name": "Braking system",
+      "price": 120,
+      "categoryId": 2
+    },
+    {
+      "id": 7,
+      "name": "Tires repair",
+      "price": 500,
+      "categoryId": 2
+    },
+    {
+      "id": 8,
+      "name": "Steering wheel",
+      "price": 600,
+      "categoryId": 2
+    }
   ],
   "categories": [
-    {},
-    {},
-    {}
+    {
+      "id": 0,
+      "name": "Engine",
+      "services": [
+        {
+          "serviceId": 0,
+          "name": "Change oil",
+          "price": 120,
+          "categoryId": 0
+        },
+        {
+          "name": "Fuel supply system repair",
+          "price": 500,
+          "categoryId": 0
+        },
+        {
+          "name": "Transmission system repair",
+          "price": 600,
+          "categoryId": 0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Electrical and electronics",
+      "services": [
+        {
+          "name": "Auidio/Video devices",
+          "price": 400,
+          "categoryId": 1
+        },
+        {
+          "name": "Ignition electronic system",
+          "price": 800,
+          "categoryId": 1
+        },
+        {
+          "name": "Lighting and signaling system",
+          "price": 300,
+          "categoryId": 1
+        }
+      ],
+      "discountId": 1
+    },
+    {
+      "id": 2,
+      "name": "Wheels",
+      "services": [
+        {
+          "name": "Braking system",
+          "price": 120,
+          "categoryId": 2
+        },
+        {
+          "name": "Tires repair",
+          "price": 500,
+          "categoryId": 2
+        },
+        {
+          "name": "Steering wheel",
+          "price": 600,
+          "categoryId": 2
+        }
+      ],
+      "discountId": 1
+    }
   ],
   "discounts": [
-    {},
-    {}
+    {
+      "discountId": 0,
+      "name": "-50% on wheels repair",
+      "amount": 0.5
+    },
+    {
+      "discountId": 1,
+      "name": "-50% on electricity",
+      "amount": 0.5
+    }
   ]
 }
