@@ -1,0 +1,38 @@
+{
+  "clients": [
+    {"id":1,
+      "firstName":"Yarik",
+    "lastName":"Mokhurenko"},
+    {"id":2,
+      "firstName":"alibaba",
+      "lastName":"razboinik"},
+    {"id":3,
+      "firstName":"Dart",
+      "lastName":"Vader"}
+  ],
+  "journal": [
+    {"total":"1000  "},
+    {},
+    {}
+  ],
+  "services": [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+  ],
+  "categories": [
+    {},
+    {},
+    {}
+  ],
+  "discounts": [
+    {},
+    {}
+  ]
+}

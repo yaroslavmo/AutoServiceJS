@@ -1,0 +1,25 @@
+{
+  "name": "AutoServiceJS",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yaroslavmo/AutoServiceJS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yaroslavmo/AutoServiceJS/issues"
+  },
+  "homepage": "https://github.com/yaroslavmo/AutoServiceJS#readme",
+  "dependencies": {
+    "faker": "^4.1.0",
+    "node.js": "0.0.0",
+    "npm": "^6.1.0"
+  }
+}
