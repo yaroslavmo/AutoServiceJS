@@ -16,9 +16,12 @@
 </head>
 
 <body>
+
 <template id="input">
     <input class="form-control m-2 input-width">
+    <button class="m-2 md-auto btn btn-primary" name="submit" type="submit"></button>
 </template>
+
 <template id="form-template">
     <div class="card" style="position: relative; left: 0;">
         <div class=" card-header mt-2">
@@ -26,31 +29,36 @@
         </div>
         <div class="card-body">
             <form action="" id='form' class="m-2">
-                <button class="m-2 md-auto btn btn-primary" name="submit" type="submit"></button>
+
             </form>
         </div>
     </div>
 </template>
+
+
+<template id="clients-table-template">
+    <div id="table-block">
+        <h1>Clients</h1>
+        <table class="table table-hover table-responsive-sm">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+            </tr>
+            </thead>
+            <tbody id="table-clients">
+            </tbody>
+        </table>
+    </div>
+</template>
+
 <template id="client-template">
     <tr id="client">
         <th scope="row" id="clientId"></th>
         <td id="clientName"></td>
         <td id="clientLastName"></td>
     </tr>
-</template>
-<template id="clients-table-template">
-    <h1>Clients</h1>
-    <table class="table table-hover table-responsive-sm">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">First name</th>
-            <th scope="col">Last name</th>
-        </tr>
-        </thead>
-        <tbody id="clients">
-        </tbody>
-    </table>
 </template>
 
 <div class="container">
@@ -64,16 +72,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" style="color:#fff" href="#">Clients</a>
+                    <a class="nav-link" style="color:#fff" href="" id="clients">Clients</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="color:#fff" href="#">Services</a>
+                    <a class="nav-link" style="color:#fff" href="#" id="services">Services</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="color:#fff" href="#">Categories</a>
+                    <a class="nav-link" style="color:#fff" href="#" id="categories">Categories</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="color:#fff" href="#">Journal</a>
+                    <a class="nav-link" style="color:#fff" href="#" id="journal">Journal</a>
                 </li>
             </ul>
         </div>
