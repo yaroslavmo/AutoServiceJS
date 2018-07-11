@@ -58,43 +58,6 @@ function loadClients() {
         .then(r => r.json());
 }
 
-function renderCategoryServices(services, categoryElement) {
-    let template = document.getElementById('service-template');
-    let serviceElement = template.content.querySelector('.service');
-    let serviceTableTemplate = document.getElementById('services-table-template');
-    let serviceTable = serviceTableTemplate.content.getElementById("services-table-block");
-    let tableBlockClone = serviceTable.cloneNode(true);
-    let serviceTableBody = tableBlockClone.querySelector('#table-services');
-
-    for (let service of services) {
-        let serviceClone = serviceElement.cloneNode(true);
-
-        serviceClone.querySelector("#service-id").innerText = service.id;
-        serviceClone.querySelector("#service-name").innerText = service.name;
-        serviceClone.querySelector("#service-price").innerText = service.price;
-        serviceTableBody.appendChild(serviceClone);
-    }
-    categoryElement.querySelector("#category-services-collapsed").appendChild(tableBlockClone);
-}
-
-function updateCategoryElement(categoryElement, category, services, discount) {
-    categoryElement.querySelector("#category-id").innerText = category.id;
-    categoryElement.querySelector("#category-name").innerText = category.categoryName;
-    services.then(services => {
-        categoryElement.querySelector("#category-services").querySelector(".btn")
-            .addEventListener('click', (event) => {
-                event.preventDefault();
-                renderCategoryServices(services, categoryElement);
-            });
-        // renderCategoryServices(services, categoryElement))
-        console.log(categoryElement.querySelector("#category-services").querySelector(".btn"));
-    });
-    if (discount) {
-        discount.then(discount => {
-            categoryElement.querySelector("#category-discount").innerText = discount.name
-        });
-    }
-}
 
 function updateServiceElement(serviceElement, service, category) {
     serviceElement.querySelector("#service-id").innerText = service.id;
@@ -188,10 +151,6 @@ function loadServiceCategory(id) {
         .then(r => r.json());
 }
 
-function loadCategoryServices(id) {
-    return fetch(servicesUrl + '?categoryId' + '=' + id)
-        .then(r => r.json());
-}
 
 function createService(serviceForm) {
     let serviceFormValues = {
@@ -277,6 +236,58 @@ function renderServices(services) {
 }
 
 //Category
+
+function renderCategoryServices(category, services, categoryElement) {
+    categoryElement.querySelector("#category-services-collapsed" + category.id).innerHTML = '';
+    let template = document.getElementById('service-template');
+    let serviceElement = template.content.querySelector('.service');
+    let serviceTableTemplate = document.getElementById('services-table-template');
+    let serviceTable = serviceTableTemplate.content.getElementById("services-table-block");
+    let tableBlockClone = serviceTable.cloneNode(true);
+    tableBlockClone.querySelector(".table").querySelector("thead").querySelectorAll("th")[3].innerHTML = '';
+
+
+    let serviceTableBody = tableBlockClone.querySelector('#table-services');
+
+    for (let service of services) {
+        let serviceClone = serviceElement.cloneNode(true);
+
+        serviceClone.querySelector("#service-id").innerText = service.id;
+        serviceClone.querySelector("#service-name").innerText = service.name;
+        serviceClone.querySelector("#service-price").innerText = service.price;
+        serviceClone.querySelector("#service-category").innerHTML = '';
+        serviceClone.querySelector("#delete-service").innerHTML = '';
+        serviceTableBody.appendChild(serviceClone);
+    }
+    tableBlockClone.style.backgroundcolor = "#bfbfbf";
+    categoryElement.querySelector("#category-services-collapsed" + category.id).appendChild(tableBlockClone);
+
+
+}
+
+function loadCategoryServices(id) {
+    return fetch(servicesUrl + '?categoryId' + '=' + id)
+        .then(r => r.json());
+}
+
+function updateCategoryElement(categoryElement, category, discount) {
+    categoryElement.querySelector("#category-id").innerText = category.id;
+    categoryElement.querySelector("#category-name").innerText = category.categoryName;
+    let services = loadCategoryServices(category.id);
+    services.then(services => {
+        categoryElement.querySelector("#category-services").querySelector(".btn")
+            .addEventListener('click', (event) => {
+                event.preventDefault();
+                renderCategoryServices(category, services, categoryElement);
+            });
+    });
+    if (discount) {
+        discount.then(discount => {
+            categoryElement.querySelector("#category-discount").innerText = discount.name
+        });
+    }
+}
+
 function createCategory(categoryForm) {
     let categoryFormValues = {
         'name': categoryForm.name.value,
@@ -307,7 +318,6 @@ function loadCategories() {
 function renderCategoryTable(categories, content) {
     let template = document.getElementById('category-template');
     let categoryElement = template.content.querySelector('.category');
-    console.log(template)
     let categoryTableTemplate = document.getElementById('categories-table-template');
     let categoryTable = categoryTableTemplate.content.getElementById("categories-table-block");
     let tableBlockClone = categoryTable.cloneNode(true);
@@ -315,15 +325,18 @@ function renderCategoryTable(categories, content) {
 
     for (let category of categories) {
         let categoryClone = categoryElement.cloneNode(true);
-        let services = loadCategoryServices(category.categoryId);
-        updateCategoryElement(categoryClone, category, services);
+        categoryClone.querySelector("#category-services").querySelector(".btn")
+            .setAttribute("data-target", "#category-services-collapsed" + category.id);
+        categoryClone.querySelector("#category-services-collapsed")
+            .setAttribute("id", "category-services-collapsed" + category.id);
+        updateCategoryElement(categoryClone, category);
 
         let deleteButton = categoryClone.querySelector("#delete-category");
         deleteButton.addEventListener('click', (event) => {
             event.preventDefault();
             deleteCategory(parseInt(categoryClone.querySelector('#category-id').innerText))
                 .then(loadCategories)
-                .then(rendercategories);
+                .then(renderCategories);
         });
         categoryTableBody.appendChild(categoryClone);
     }
@@ -350,12 +363,11 @@ function renderAddCategoryForm(categories, content) {
         event.preventDefault();
         createCategory(categoryForm)
             .then(loadCategories)
-            .then(rendercategories);
+            .then(renderCategories);
     });
 }
 
 function renderCategories(categories) {
-    console.log(categories);
     let content = document.getElementById("content");
     content.innerHTML = '';
     renderCategoryTable(categories, content);
