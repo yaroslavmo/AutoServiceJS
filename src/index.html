@@ -67,7 +67,7 @@
 
 <template id="services-table-template">
     <div id="services-table-block">
-        <h1>Clients</h1>
+        <h1>Services</h1>
         <table class="table table-hover table-responsive-sm">
             <thead>
             <tr>
@@ -90,6 +90,40 @@
         <td id="service-price"></td>
         <td id="service-category"><button data-toggle="collapse" data-target="">Category</button></td>
         <td class="text-right"><button type="button" class="close text-right" aria-label="Close" id="delete-service">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </td>
+    </tr>
+</template>
+<template id="categories-table-template">
+    <div id="categories-table-block">
+        <h1>Categories</h1>
+        <table class="table table-hover table-responsive-sm">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Category name</th>
+                <th scope="col">Services</th>
+                <th scope="col" colspan="2">Discount</th>
+            </tr>
+            </thead>
+            <tbody id="table-categories">
+            </tbody>
+        </table>
+    </div>
+</template>
+
+<template id="category-template">
+    <tr class="category">
+        <th scope="row" id="category-id"></th>
+        <td id="category-name"></td>
+        <td id="category-services">
+            <button data-toggle="collapse" data-target="" class="btn">Services</button>
+            <div class="collapse" id="category-services-collapsed"></div>
+
+        </td>
+        <td id="category-discount"></td>
+        <td class="text-right"><button type="button" class="close text-right" aria-label="Close" id="delete-category">
             <span aria-hidden="true">&times;</span>
         </button>
         </td>
@@ -123,6 +157,7 @@
     </nav>
 </div>
 <div class="container mt-md-15 mt-sm-20 mt-lg-5" id="content">
+
 
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

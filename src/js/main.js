@@ -15,7 +15,11 @@ function init() {
         loadServices()
             .then(renderServices)
     });
-
+    document.getElementById("categories").addEventListener('click', (event) => {
+        event.preventDefault();
+        loadCategories()
+            .then(renderCategories)
+    });
 }
 
 window.onload = init;
@@ -54,30 +58,52 @@ function loadClients() {
         .then(r => r.json());
 }
 
-function updateCategoryElement(categoryElement, category) {
-    categoryElement.querySelector("#category-id").innerText = category.categoryId;
+function renderCategoryServices(services, categoryElement) {
+    let template = document.getElementById('service-template');
+    let serviceElement = template.content.querySelector('.service');
+    let serviceTableTemplate = document.getElementById('services-table-template');
+    let serviceTable = serviceTableTemplate.content.getElementById("services-table-block");
+    let tableBlockClone = serviceTable.cloneNode(true);
+    let serviceTableBody = tableBlockClone.querySelector('#table-services');
+
+    for (let service of services) {
+        let serviceClone = serviceElement.cloneNode(true);
+
+        serviceClone.querySelector("#service-id").innerText = service.id;
+        serviceClone.querySelector("#service-name").innerText = service.name;
+        serviceClone.querySelector("#service-price").innerText = service.price;
+        serviceTableBody.appendChild(serviceClone);
+    }
+    categoryElement.querySelector("#category-services-collapsed").appendChild(tableBlockClone);
+}
+
+function updateCategoryElement(categoryElement, category, services, discount) {
+    categoryElement.querySelector("#category-id").innerText = category.id;
     categoryElement.querySelector("#category-name").innerText = category.categoryName;
-    //categoryElement.querySelector("#categoryServices")= category.categoryServices;
-}
-
-function checkCategory(id) {
-    let categoryPromise = fetch(categoriesUrl)
-        .then(r => r.json())
-        .then(function (categories) {
-            for (let category of categories) {
-                if (category.categoryId == id) {
-                    return category.categoryName;
-                }
-            }
+    services.then(services => {
+        categoryElement.querySelector("#category-services").querySelector(".btn")
+            .addEventListener('click', (event) => {
+                event.preventDefault();
+                renderCategoryServices(services, categoryElement);
+            });
+        // renderCategoryServices(services, categoryElement))
+        console.log(categoryElement.querySelector("#category-services").querySelector(".btn"));
+    });
+    if (discount) {
+        discount.then(discount => {
+            categoryElement.querySelector("#category-discount").innerText = discount.name
         });
-
+    }
 }
 
-function updateServiceElement(serviceElement, service) {
-    serviceElement.querySelector("#service-id").innerText = service.serviceId;
+function updateServiceElement(serviceElement, service, category) {
+    serviceElement.querySelector("#service-id").innerText = service.id;
     serviceElement.querySelector("#service-name").innerText = service.name;
     serviceElement.querySelector("#service-price").innerText = service.price;
-    serviceElement.querySelector("#service-category").innerText = checkCategory(service.categoryId);
+    category.then(category => {
+        serviceElement.querySelector("#service-category").innerText = category.categoryName
+    });
+
 }
 
 function updateClientElement(clientElement, client) {
@@ -157,11 +183,21 @@ function renderClients(clients) {
 }
 
 //Service
+function loadServiceCategory(id) {
+    return fetch(categoriesUrl + '/' + id)
+        .then(r => r.json());
+}
+
+function loadCategoryServices(id) {
+    return fetch(servicesUrl + '?categoryId' + '=' + id)
+        .then(r => r.json());
+}
+
 function createService(serviceForm) {
     let serviceFormValues = {
         'name': serviceForm.name.value,
         'price': serviceForm.price.value,
-        'category': serviceForm.category.value
+        'categoryId': serviceForm.categoryId.value
     };
     return fetch(servicesUrl, {
         method: 'POST',
@@ -176,13 +212,7 @@ function createService(serviceForm) {
 function deleteService(id) {
     return fetch(servicesUrl + '/' + id, {
         method: 'DELETE',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
     }).then(r => r.json());
-
-
 }
 
 function loadServices() {
@@ -200,7 +230,8 @@ function renderServiceTable(services, content) {
 
     for (let service of services) {
         let serviceClone = serviceElement.cloneNode(true);
-        updateServiceElement(serviceClone, service);
+        let category = loadServiceCategory(service.categoryId);
+        updateServiceElement(serviceClone, service, category);
 
         let deleteButton = serviceClone.querySelector("#delete-service");
         deleteButton.addEventListener('click', (event) => {
@@ -213,6 +244,7 @@ function renderServiceTable(services, content) {
     }
     content.appendChild(tableBlockClone);
 }
+
 
 function renderAddServiceForm(services, content) {
     let formTemplate = document.getElementById('form-template');
@@ -243,3 +275,90 @@ function renderServices(services) {
     renderServiceTable(services, content);
     renderAddServiceForm(services, content);
 }
+
+//Category
+function createCategory(categoryForm) {
+    let categoryFormValues = {
+        'name': categoryForm.name.value,
+        'price': categoryForm.price.value,
+        'categoryId': categoryForm.categoryId.value
+    };
+    return fetch(categoriesUrl, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(categoryFormValues)
+    }).then(r => r.json());
+}
+
+function deleteCategory(id) {
+    return fetch(categoriesUrl + '/' + id, {
+        method: 'DELETE',
+    }).then(r => r.json());
+}
+
+function loadCategories() {
+    return fetch(categoriesUrl)
+        .then(r => r.json());
+}
+
+function renderCategoryTable(categories, content) {
+    let template = document.getElementById('category-template');
+    let categoryElement = template.content.querySelector('.category');
+    console.log(template)
+    let categoryTableTemplate = document.getElementById('categories-table-template');
+    let categoryTable = categoryTableTemplate.content.getElementById("categories-table-block");
+    let tableBlockClone = categoryTable.cloneNode(true);
+    let categoryTableBody = tableBlockClone.querySelector('#table-categories');
+
+    for (let category of categories) {
+        let categoryClone = categoryElement.cloneNode(true);
+        let services = loadCategoryServices(category.categoryId);
+        updateCategoryElement(categoryClone, category, services);
+
+        let deleteButton = categoryClone.querySelector("#delete-category");
+        deleteButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            deleteCategory(parseInt(categoryClone.querySelector('#category-id').innerText))
+                .then(loadCategories)
+                .then(rendercategories);
+        });
+        categoryTableBody.appendChild(categoryClone);
+    }
+    content.appendChild(tableBlockClone);
+}
+
+
+function renderAddCategoryForm(categories, content) {
+    let formTemplate = document.getElementById('form-template');
+
+    let formCard = formTemplate.content.querySelector(".card");
+    let formCardClone = formCard.cloneNode(true);
+    let categoryForm = createForm(formCardClone.querySelector("form"), categories[0]);
+
+    let button = document.getElementById("input&buttom").content.querySelector("button");
+    let buttonClone = button.cloneNode(true);
+    buttonClone.innerText = 'Add category';
+    categoryForm.appendChild(buttonClone);
+    formCardClone.querySelector('#form-name').innerText = 'Add category';
+    formCardClone.querySelector(".card-body").appendChild(categoryForm);
+    content.appendChild(formCardClone);
+
+    categoryForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        createCategory(categoryForm)
+            .then(loadCategories)
+            .then(rendercategories);
+    });
+}
+
+function renderCategories(categories) {
+    console.log(categories);
+    let content = document.getElementById("content");
+    content.innerHTML = '';
+    renderCategoryTable(categories, content);
+    renderAddCategoryForm(categories, content);
+}
+
