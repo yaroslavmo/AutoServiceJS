@@ -7,3 +7,6 @@
 .input-width{
     width: 97%
 }
+.nav-item-hover:hover{
+    background-color: #2a2f2f
+}
