@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,800">
     <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
 
     <!--<link rel="stylesheet" href="../node_modules/bootstrap/scss/bootstrap.scss">-->
@@ -23,7 +24,7 @@
 </template>
 
 <template id="form-template">
-    <div class="card mt-4" style="position: relative; left: 0;">
+    <div class="card mt-4" id="form-card" style="position: relative; left: 0;">
         <div class=" card-header">
             <h1 id="form-name"></h1>
         </div>
@@ -58,11 +59,12 @@
         <th scope="row" id="client-id"></th>
         <td id="client-name"></td>
         <td id="client-last-name"></td>
-            <td class="text-right"><button type="button" class="close text-right" aria-label="Close" id="delete-client">
+        <td class="text-right">
+            <button type="button" class="close text-right" aria-label="Close" id="delete-client">
                 <span aria-hidden="true">&times;</span>
             </button>
         </td>
-        </tr>
+    </tr>
 </template>
 
 <template id="services-table-template">
@@ -88,10 +90,14 @@
         <th scope="row" id="service-id"></th>
         <td id="service-name"></td>
         <td id="service-price"></td>
-        <td id="service-category"><button data-toggle="collapse" data-target="">Category</button></td>
-        <td class="text-right"><button type="button" class="close text-right" aria-label="Close" id="delete-service">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <td id="service-category"></td>
+        <td class="text-right" id="actions">
+            <button type="button" class="close text-right" aria-label="Close" id="delete-service">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <button type="button" class="close text-right" aria-label="Close" id="edit-service">
+                <span aria-hidden="true"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 15px; padding-top: 3px"></i></span>
+            </button>
         </td>
     </tr>
 </template>
@@ -119,13 +125,54 @@
         <td id="category-name"></td>
         <td id="category-services">
             <button data-toggle="collapse" data-target="#category-services-collapsed" class="btn">Services</button>
-            <div class="collapse" style="position:absolute; z-index:99999; background-color: #bfbfbf;" id="category-services-collapsed"></div>
+            <div class="collapse" style="position:absolute; z-index:99999; background-color: #bfbfbf;"
+                 id="category-services-collapsed"></div>
 
         </td>
         <td id="category-discount"></td>
-        <td class="text-right"><button type="button" class="close text-right" aria-label="Close" id="delete-category">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <td class="text-right">
+            <button type="button" class="close text-right" aria-label="Close" id="delete-category">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </td>
+    </tr>
+</template>
+
+<template id="journal-table-template">
+    <div id="journal-table-block">
+        <h1>Bills</h1>
+        <table class="table table-hover table-responsive-sm">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Client</th>
+                <th scope="col">Services</th>
+                <th scope="col" colspan="2">Total</th>
+            </tr>
+            </tr>
+            </thead>
+            <tbody id="table-bills">
+            </tbody>
+        </table>
+    </div>
+</template>
+
+<template id="bill-template">
+    <tr class="bill">
+        <th scope="row" id="bill-id"></th>
+        <td id="bill-client-name"></td>
+        <td id="bill-services">
+            <button data-toggle="collapse" data-target="#bill-services-collapsed" class="btn">Services</button>
+            <div class="collapse" style="position:absolute; z-index:99999; background-color: #bfbfbf;"
+                 id="bill-services-collapsed"></div>
+
+        </td>
+        <td id="bill-total"></td>
+
+        <td class="text-right">
+            <button type="button" class="close text-right" aria-label="Close" id="delete-bill">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </td>
     </tr>
 </template>
@@ -134,7 +181,8 @@
     <nav class="navbar navbar-expand-lg navbar-dark nav-color">
         <a class="navbar-brand " href="#">Auto Service</a>
 
-        <button class="navbar-toggler flex-1" type="button" data-toggle="collapse" data-target="#navbar-supported-content">
+        <button class="navbar-toggler flex-1" type="button" data-toggle="collapse"
+                data-target="#navbar-supported-content">
             <span class="navbar-toggler-icon"></span>
         </button>
 
