@@ -90,8 +90,10 @@ function updateClientElement(clientElement, client) {
 function createForm(formElement, object) {
     let inputTemplate = document.getElementById("input&buttom");
     let input = inputTemplate.content.querySelector("input");
+
     for (let element of Object.keys(object)) {
         let inputClone = input.cloneNode(true);
+        console.log(inputClone)
         if (element !== "id") {
             inputClone.name = element.toString();
             inputClone.placeholder = element.toString();
@@ -133,7 +135,7 @@ function renderAddClientForm(clients, content) {
     let formCard = formTemplate.content.querySelector(".card");
     let formCardClone = formCard.cloneNode(true);
     let clientForm = createForm(formCardClone.querySelector("form"), clients[0]);
-    clientForm.querySelectorAll("input").forEach((input) => input.setAttribute('onblur', 'validateName(name)'));
+    setFormAttributes(clientForm);
 
     let button = document.getElementById("input&buttom").content.querySelector("button");
     let buttonClone = button.cloneNode(true);
@@ -145,6 +147,10 @@ function renderAddClientForm(clients, content) {
 
     clientForm.addEventListener('submit', (event) => {
         event.preventDefault();
+        if (!validateForm()) {
+            document.getElementById('nameError').style.display = "block";
+            return;
+        }
         createClient(clientForm)
             .then(loadClients)
             .then(renderClients);
@@ -208,10 +214,14 @@ function renderEditForm(elementToRender, elementTable) {
     let formInputs = formCard.querySelector("#form").querySelectorAll("input");
     let elementValues = elementToRender.querySelectorAll("td");
     let editForm = formCard.querySelector("form");
+    setFormAttributes(editForm);
 
     formName.innerText = "Edit " + entityName + " No" + id;
     formInputs.forEach((input, i) => {
-        input.value = elementValues[i].innerText
+        input.value = elementValues[i].innerText;
+        if (i === 2) {
+            input.required = false;
+        }
     });
     let submitButtton = formCard.querySelector("button").cloneNode(true);
     editForm.replaceChild(submitButtton, formCard.querySelector("button"));
@@ -228,6 +238,13 @@ function renderEditForm(elementToRender, elementTable) {
 
     submitButtton.addEventListener('click', (event) => {
         event.preventDefault();
+        if (!validateForm()) {
+            if (document.getElementById('numberError').style.display === "block") {
+                return;
+            }
+            document.getElementById('nameError').style.display = "block";
+            return;
+        }
         updateElement(id, editForm, servicesUrl)
             .then(loadServices)
             .then(renderServices);
@@ -276,7 +293,9 @@ function renderAddServiceForm(services, content) {
     let formCard = formTemplate.content.querySelector(".card");
     let formCardClone = formCard.cloneNode(true);
     let serviceForm = createForm(formCardClone.querySelector("form"), services[0]);
+    setFormAttributes(serviceForm);
 
+    serviceForm.querySelectorAll("input")[2].required = false;
     let button = document.getElementById("input&buttom").content.querySelector("button");
     let buttonClone = button.cloneNode(true);
     buttonClone.innerText = 'Add service';
@@ -287,10 +306,22 @@ function renderAddServiceForm(services, content) {
 
     buttonClone.addEventListener('click', (event) => {
         event.preventDefault();
+        if (!validateForm()) {
+            if (document.getElementById('numberError').style.display === "block") {
+                return;
+            }
+            document.getElementById('nameError').style.display = "block";
+            return;
+        }
         createService(serviceForm)
             .then(loadServices)
             .then(renderServices);
     });
+    serviceForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+    })
+
 }
 
 function renderServices(services) {
@@ -414,7 +445,7 @@ function renderAddCategoryForm(categories, content) {
     let formCard = formTemplate.content.querySelector(".card");
     let formCardClone = formCard.cloneNode(true);
     let categoryForm = createForm(formCardClone.querySelector("form"), categories[0]);
-
+    setFormAttributes(categoryForm);
     let button = document.getElementById("input&buttom").content.querySelector("button");
     let buttonClone = button.cloneNode(true);
     buttonClone.innerText = 'Add category';
@@ -425,6 +456,10 @@ function renderAddCategoryForm(categories, content) {
 
     categoryForm.addEventListener('submit', (event) => {
         event.preventDefault();
+        if (!validateForm()) {
+            document.getElementById('nameError').style.display = "block";
+            return;
+        }
         createCategory(categoryForm)
             .then(loadCategories)
             .then(renderCategories);
@@ -455,7 +490,7 @@ function renderBillServices(bill, billElement) {
         serviceClone.querySelector("#service-id").innerText = service.serviceId;
         serviceClone.querySelector("#service-name").innerText = service.name;
         serviceClone.querySelector("#service-price").innerText = service.price;
-        console.log(service);
+
         serviceClone.querySelector("#service-category").innerHTML = service.categoryName;
         // serviceClone.querySelector("#service-category").innerHTML = '';
         serviceClone.querySelector("#actions").innerHTML = '';
@@ -469,7 +504,7 @@ function renderBillServices(bill, billElement) {
 }
 
 function loadClientByID(id) {
-    return fetch(clientsUrl+ '/'+ id )
+    return fetch(clientsUrl + '/' + id)
         .then((response) => {
             return response.json();
         });
@@ -480,13 +515,13 @@ function updateBillElement(billElement, bill) {
     billElement.querySelector("#bill-id").innerText = bill.id;
 
     loadClientByID(bill.billClientId).then(c => {
-        billElement.querySelector("#bill-client-name").innerText = c.firstName+ ' ' + c.lastName
+        billElement.querySelector("#bill-client-name").innerText = c.firstName + ' ' + c.lastName
     });
-        billElement.querySelector("#bill-services").querySelector(".btn")
-            .addEventListener('click', (event) => {
-                event.preventDefault();
-                renderBillServices(bill, billElement);
-            });
+    billElement.querySelector("#bill-services").querySelector(".btn")
+        .addEventListener('click', (event) => {
+            event.preventDefault();
+            renderBillServices(bill, billElement);
+        });
 
     billElement.querySelector("#bill-total").innerText = bill.total;
 
@@ -494,7 +529,7 @@ function updateBillElement(billElement, bill) {
 
 function createBill(billForm) {
     let billFormValues = {
-        'billClientId': parseInt(billForm.billClientId.value),  //!!!!!!!!!!!!!!!! console
+        'billClientId': parseInt(billForm.billClientId.value),
         'total': parseInt(billForm.total.value)
     };
     return fetch(journalUrl, {
@@ -556,7 +591,8 @@ function renderAddBillForm(bills, content) {
     let formCard = formTemplate.content.querySelector(".card");
     let formCardClone = formCard.cloneNode(true);
     let billForm = createForm(formCardClone.querySelector("form"), bills[0]);
-
+    setFormAttributes(billForm);
+    billForm.querySelectorAll("input")[1].required = false;
     let button = document.getElementById("input&buttom").content.querySelector("button");
     let buttonClone = button.cloneNode(true);
     buttonClone.innerText = 'Add bill';
@@ -567,6 +603,10 @@ function renderAddBillForm(bills, content) {
 
     billForm.addEventListener('submit', (event) => {
         event.preventDefault();
+        if (!validateForm()) {
+            document.getElementById('numberError').style.display = "block";
+            return;
+        }
         createBill(billForm)
             .then(loadJournal)
             .then(renderJournal);
@@ -580,14 +620,86 @@ function renderJournal(bills) {
     renderAddBillForm(bills, content);
 }
 
-function validateName(id){
-    var re = /[A-Za-z-‘]$/;
-    if(re.test(document.getElementById(id).value)){
-        document.getElementById(id).style.background ='#ccffcc';
+function validateName(id) {
+    var re = /\d/;
+    if (!re.test(document.getElementById(id).value)) {
+
+        document.getElementById(id).style.background = '#bbffae';
+        if (!document.getElementById('nameError').style.display === "block") {
+            document.getElementById('nameError').style.display = "none";
+        }
+        document.getElementById('nameError').parentElement.querySelectorAll("input").forEach((input) => {
+            if (input.style.backgroundColor === "rgb(255, 91, 92)") {
+                return false
+            } else {
+                document.getElementById('nameError').style.display = "none";
+            }
+        });
         return true;
-    }else{
-        document.getElementById(id).style.background ='#e35152';
+    } else {
+        document.getElementById(id).style.background = '#ff5b5c';
+        document.getElementById('nameError').style.display = "block";
         return false;
     }
+}
+
+function validateNumbers(id) {
+    var re = /[A-Za-z -']/;
+    if (!re.test(document.getElementById(id).value)) {
+
+        document.getElementById(id).style.background = '#bbffae';
+        if (!document.getElementById('numberError').style.display === "block") {
+            document.getElementById('numberError').style.display = "none";
+        }
+        document.getElementById('numberError').parentElement.querySelectorAll("input").forEach((input) => {
+            if (input.style.backgroundColor === "rgb(255, 91, 92)") {
+                return false
+            } else {
+                document.getElementById('numberError').style.display = "none";
+            }
+        });
+        return true;
+    } else {
+        document.getElementById(id).style.background = '#ff5b5c';
+        document.getElementById('numberError').style.display = "block";
+        return false;
+    }
+}
+
+function validateForm() {
+    var error = 0;
+    let clientForm = document.getElementById("form-card").querySelector("#form");
+    clientForm.querySelectorAll("input").forEach((input) => {
+        if (['price', 'total', 'billClientId'].includes(input.id)) {
+            if (!validateNumbers(input.id)) {
+                document.getElementById('numberError').style.display = "block";
+                error++;
+            }
+        } else {
+            if (!validateName(input.id)) {
+                document.getElementById('nameError').style.display = "block";
+                error++;
+            }
+        }
+    });
+    if (error > 0) {
+        return false;
+    }
+    return true
+}
+
+function setFormAttributes(form) {
+    form.setAttribute('onsubmit', "return validateForm()");
+    form.querySelectorAll("input").forEach((input) => {
+        input.id = input.name;
+        if (!['price', 'total', 'billClientId'].includes(input.id)) {
+            input.setAttribute('onblur', 'validateName(id)')
+        } else {
+            input.setAttribute('onblur', 'validateNumbers(id)')
+        }
+        input.required = true;
+    });
+
+
 }
 

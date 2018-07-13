@@ -14,6 +14,21 @@
       "id": 3,
       "firstName": "Dart",
       "lastName": "Vader"
+    },
+    {
+      "firstName": "rturtu",
+      "lastName": "rtjh",
+      "id": 4
+    },
+    {
+      "firstName": "jbo",
+      "lastName": "hiop",
+      "id": 5
+    },
+    {
+      "firstName": "qwf",
+      "lastName": "qasf",
+      "id": 6
     }
   ],
   "journal": [
@@ -137,9 +152,9 @@
     },
     {
       "id": 7,
-      "name": "Braking system",
-      "price": 120,
-      "categoryName": "Wheels"
+      "name": "erger",
+      "price": "weg",
+      "categoryName": "gsfg"
     },
     {
       "id": 8,
@@ -148,10 +163,16 @@
       "categoryName": "Wheels"
     },
     {
-      "id": 9,
-      "name": "Steering wheel",
-      "price": 600,
-      "categoryName": "Wheels"
+      "name": "",
+      "price": "",
+      "categoryName": "",
+      "id": 9
+    },
+    {
+      "name": "",
+      "price": "",
+      "categoryName": "",
+      "id": 10
     }
   ],
   "categories": [
@@ -162,10 +183,6 @@
     {
       "id": 2,
       "categoryName": "Electrical and electronics"
-    },
-    {
-      "id": 3,
-      "categoryName": "Wheels"
     }
   ],
   "discounts": [

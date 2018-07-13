@@ -6,7 +6,8 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,800">
     <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
 
     <!--<link rel="stylesheet" href="../node_modules/bootstrap/scss/bootstrap.scss">-->
@@ -19,8 +20,8 @@
 <body>
 
 <template id="input&buttom">
-    <input class="form-control m-2 input-width">
-    <button class="m-2 md-auto btn btn-primary" name="submit" type="submit"></button>
+    <input class="form-control m-2 input-width" required/>
+    <button class="m-2 md-auto btn btn-primary" name="submit" ></button>
 </template>
 
 <template id="form-template">
@@ -30,7 +31,9 @@
         </div>
         <div class="card-body">
             <form action="" id='form' class="m-2">
-
+                <span id="nameError" class="form-text text-muted" style="display: none;">*You can only use alphabetic characters, hyphens and apostrophes</span>
+                <span id="numberError" class="form-text text-muted"
+                      style="display: none;">*You can only use numbers</span>
             </form>
         </div>
     </div>
@@ -45,7 +48,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">First name</th>
-                <th scope="col " colspan="2">Last name</th>
+                <th scope="col" colspan="2">Last name</th>
             </tr>
             </thead>
             <tbody id="table-clients">
@@ -96,7 +99,8 @@
                 <span aria-hidden="true">&times;</span>
             </button>
             <button type="button" class="close text-right" aria-label="Close" id="edit-service">
-                <span aria-hidden="true"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 15px; padding-top: 3px"></i></span>
+                <span aria-hidden="true"><i class="fa fa-pencil-square-o" aria-hidden="true"
+                                            style="font-size: 15px; padding-top: 3px"></i></span>
             </button>
         </td>
     </tr>
