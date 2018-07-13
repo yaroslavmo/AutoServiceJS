@@ -25,19 +25,19 @@
           "serviceId": 1,
           "name": "Change oil",
           "price": 120,
-          "categoryName": 1
+          "categoryName": "Engine"
         },
         {
           "serviceId": 2,
           "name": "Fuel supply system repair",
           "price": 500,
-          "categoryName": 1
+          "categoryName": "Engine"
         },
         {
           "serviceId": 3,
           "name": "Transmission system repair",
           "price": 600,
-          "categoryName": 1
+          "categoryName": "Engine"
         }
       ],
       "total": 1220
@@ -50,19 +50,19 @@
           "serviceId": 4,
           "name": "Auidio/Video devices",
           "price": 400,
-          "categoryName": 2
+          "categoryName": "Electrical and electronics"
         },
         {
           "serviceId": 5,
           "name": "Ignition electronic system",
           "price": 800,
-          "categoryName": 2
+          "categoryName": "Electrical and electronics"
         },
         {
           "serviceId": 6,
           "name": "Lighting and signaling system",
           "price": 300,
-          "categoryName": 2
+          "categoryName": "Electrical and electronics"
         }
       ],
       "total": 1500
@@ -75,22 +75,27 @@
           "serviceId": 7,
           "name": "Braking system",
           "price": 120,
-          "categoryName": 3
+          "categoryName": "Wheels"
         },
         {
           "serviceId": 8,
           "name": "Tires repair",
           "price": 500,
-          "categoryName": 3
+          "categoryName": "Wheels"
         },
         {
           "serviceId": 9,
           "name": "Steering wheel",
           "price": 600,
-          "categoryName": 3
+          "categoryName": "Wheels"
         }
       ],
       "total": 1220
+    },
+    {
+      "billClientId": 2,
+      "total": 123,
+      "id": 4
     }
   ],
   "services": [

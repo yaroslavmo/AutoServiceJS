@@ -1,35 +1,34 @@
-<template id="bills-table-template">
-    <div id="bills-table-block">
-        <h1>Bills</h1>
-        <table class="table table-hover table-responsive-sm">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Client</th>
-                <th scope="col">Services</th>
-                <th scope="col" colspan="2">Total</th>
-            </tr>
-            </thead>
-            <tbody id="table-bills">
-            </tbody>
-        </table>
-    </div>
-</template>
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .democlass {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<form action="">
+    <fieldset>
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" onblur="validateName(name)" /> <span id="nameError" style="display: none;">You can only use alphabetic characters, hyphens and apostrophes</span>
+    </fieldset>
+</form>
+<script>
+    function validate(name) {
+        //alert(document.getElementById(name).value);
+        var re = /[A-Za-z -']$/;
+        if(re.test(document.getElementById(x).value)){
+            document.getElementById(x).style.background ='#ccffcc';
+            document.getElementById(x + 'Error').style.display = "none";
+            return true;
+        }else{
+            document.getElementById(x).style.background ='#e35152';
+            document.getElementById(x + 'Error').style.display = "block";
+            return false;
+        }
+    }
+</script>
 
-<template id="bill-template">
-    <tr class="bill">
-        <th scope="row" id="bill-id"></th>
-        <td id="bill-client-name"></td>
-        <td id="bill-services">
-            <button data-toggle="collapse" data-target="#bill-services-collapsed" class="btn">Bills</button>
-            <div class="collapse" style="position:absolute; z-index:99999; background-color: #bfbfbf;"
-                 id="bill-services-collapsed"></div>
-
-        </td>
-        <td class="text-right">
-            <button type="button" class="close text-right" aria-label="Close" id="delete-bill">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </td>
-    </tr>
-</template>
+</body>
+</html>

@@ -133,6 +133,7 @@ function renderAddClientForm(clients, content) {
     let formCard = formTemplate.content.querySelector(".card");
     let formCardClone = formCard.cloneNode(true);
     let clientForm = createForm(formCardClone.querySelector("form"), clients[0]);
+    clientForm.querySelectorAll("input").forEach((input) => input.setAttribute('onblur', 'validateName(name)'));
 
     let button = document.getElementById("input&buttom").content.querySelector("button");
     let buttonClone = button.cloneNode(true);
@@ -439,7 +440,7 @@ function renderCategories(categories) {
 
 //Journal
 
-function renderBillServices(bill, services, billElement) {
+function renderBillServices(bill, billElement) {
     billElement.querySelector("#bill-services-collapsed" + bill.id).innerHTML = '';
     let template = document.getElementById('service-template');
     let serviceElement = template.content.querySelector('.service');
@@ -449,15 +450,12 @@ function renderBillServices(bill, services, billElement) {
 
 
     let serviceTableBody = tableBlockClone.querySelector('#table-services');
-    console.log(bill.services);
-    let cmd = bill.services.filter(value => -1 !== services.indexOf(value));//!!!!!!!!!!!!!!cnosole
-    console.log(cmd);
     for (let service of bill.services) {
         let serviceClone = serviceElement.cloneNode(true);
-
-        serviceClone.querySelector("#service-id").innerText = service.id;
+        serviceClone.querySelector("#service-id").innerText = service.serviceId;
         serviceClone.querySelector("#service-name").innerText = service.name;
         serviceClone.querySelector("#service-price").innerText = service.price;
+        console.log(service);
         serviceClone.querySelector("#service-category").innerHTML = service.categoryName;
         // serviceClone.querySelector("#service-category").innerHTML = '';
         serviceClone.querySelector("#actions").innerHTML = '';
@@ -469,13 +467,6 @@ function renderBillServices(bill, services, billElement) {
 
 
 }
-
-function loadBillServices() {
-    return fetch(servicesUrl)
-        .then(r => r.json());
-}
-
-
 
 function loadClientByID(id) {
     return fetch(clientsUrl+ '/'+ id )
@@ -491,14 +482,12 @@ function updateBillElement(billElement, bill) {
     loadClientByID(bill.billClientId).then(c => {
         billElement.querySelector("#bill-client-name").innerText = c.firstName+ ' ' + c.lastName
     });
-    let services = loadBillServices(bill.id);
-    services.then(services => {
         billElement.querySelector("#bill-services").querySelector(".btn")
             .addEventListener('click', (event) => {
                 event.preventDefault();
-                renderBillServices(bill, services, billElement);
+                renderBillServices(bill, billElement);
             });
-    });
+
     billElement.querySelector("#bill-total").innerText = bill.total;
 
 }
@@ -589,5 +578,16 @@ function renderJournal(bills) {
     content.innerHTML = '';
     renderJournalTable(bills, content);
     renderAddBillForm(bills, content);
+}
+
+function validateName(id){
+    var re = /[A-Za-z-‘]$/;
+    if(re.test(document.getElementById(id).value)){
+        document.getElementById(id).style.background ='#ccffcc';
+        return true;
+    }else{
+        document.getElementById(id).style.background ='#e35152';
+        return false;
+    }
 }
 
